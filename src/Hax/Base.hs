@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wall #-}
 module Hax.Base (module Hax.Base , (Control.Applicative.<|>) , (Data.Monoid.<>) ) where
 
 import qualified Control.Applicative
