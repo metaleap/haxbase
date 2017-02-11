@@ -8,7 +8,6 @@ import qualified Data.Monoid
 import qualified Data.Traversable
 
 
-
 has :: [a]  ->  Bool
 has [] = False
 has (_:_) = True
