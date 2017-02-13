@@ -1,4 +1,4 @@
-module Hax.Base (module Hax.Base , (Control.Applicative.<|>) , (Data.Monoid.<>) ) where
+module HxB (module HxB , (Control.Applicative.<|>) , (Data.Monoid.<>) ) where
 
 import qualified Control.Applicative
 import qualified Control.Monad
@@ -6,6 +6,7 @@ import Data.Function ( (&) )
 import qualified Data.Maybe
 import qualified Data.Monoid
 import qualified Data.Traversable
+
 
 
 has :: [a]  ->  Bool

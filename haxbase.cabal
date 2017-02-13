@@ -1,5 +1,5 @@
 name:                haxbase
-version:             1.0.0.1
+version:             1.0.0.2
 homepage:            https://github.com/metaleap/haxbase#readme
 license:             GPL
 license-file:        LICENSE
@@ -18,4 +18,4 @@ library
     build-depends:
         base
     exposed-modules:
-        Hax.Base
+        HxB, HxB.Dbg
