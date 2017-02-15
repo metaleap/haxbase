@@ -1,4 +1,6 @@
-module HxB (module HxB , (Control.Applicative.<|>) , (Data.Monoid.<>) ) where
+module Base
+(module Base , (Control.Applicative.<|>) , (Data.Monoid.<>) , (System.FilePath.</>))
+where
 
 import qualified Control.Applicative
 import qualified Control.Monad
@@ -6,6 +8,7 @@ import Data.Function ( (&) )
 import qualified Data.Maybe
 import qualified Data.Monoid
 import qualified Data.Traversable
+import qualified System.FilePath
 
 
 
@@ -97,6 +100,12 @@ infix 1 |?
 infixr 0 |!
 (|!) = ($)
 
+
+
+(<?>) :: [a]  ->  [a]  ->  [a]
+infix 9 <?>
+[] <?> list = list
+list <?> _ = list
 
 
 

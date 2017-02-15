@@ -1,5 +1,5 @@
 name:                haxbase
-version:             1.0.0.2
+version:             1.0.0.3
 homepage:            https://github.com/metaleap/haxbase#readme
 license:             GPL
 license-file:        LICENSE
@@ -16,6 +16,6 @@ library
     ghc-options:         -j4 -Wall -O2
     hs-source-dirs:      src
     build-depends:
-        base
+        base, filepath
     exposed-modules:
-        HxB, HxB.Dbg
+        Base, Dbg
