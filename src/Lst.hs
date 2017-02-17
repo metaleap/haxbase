@@ -1,13 +1,27 @@
 module Lst
-(join, splitBy, splitOn,
-    DL.find, DL.isPrefixOf, DL.lookup)
+(begins, join, joined, splitBy, splitOn, isInfixed, isPrefixed, isSuffixed,
+    DL.find, DL.isInfixOf, DL.isPrefixOf, DL.isSuffixOf, DL.lookup)
 where
 
 import qualified Data.List as DL
 
 
-join :: [a]  ->  [[a]]  ->  [a]
-join = DL.intercalate
+
+begins :: (Eq a)=>  a  ->  [a]  ->  Bool
+begins item (this:_) =
+    item == this
+begins _ _ =
+    False
+
+
+
+joined :: [a]  ->  [[a]]  ->  [a]
+joined = DL.intercalate
+
+join :: a  ->  [[a]]  ->  [a]
+join delim =
+    drop 1 . foldr (\value -> ((delim:value)++)) []
+
 
 
 splitBy :: (a->Bool)  ->  [a]  ->  [[a]]
@@ -18,6 +32,17 @@ splitBy check =
             |(check item)= []:accum
             |(otherwise)= (item:item0):rest
 
-splitOn :: (Eq a) => a  ->  [a]  ->  [[a]]
+splitOn :: (Eq a)=>  a  ->  [a]  ->  [[a]]
 splitOn delim =
     splitBy (delim==)
+
+
+
+isInfixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isInfixed = flip DL.isInfixOf
+
+isPrefixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isPrefixed = flip DL.isPrefixOf
+
+isSuffixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isSuffixed = flip DL.isSuffixOf

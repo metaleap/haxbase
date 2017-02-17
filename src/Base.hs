@@ -12,6 +12,11 @@ import qualified System.FilePath
 
 
 
+err :: String  ->  a
+err = errorWithoutStackTrace
+
+
+
 has :: [a]  ->  Bool
 has [] = False
 has (_:_) = True
