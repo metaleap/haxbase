@@ -1,0 +1,16 @@
+
+applied :: (Functor f)=>  f (a->b)  ->  a  ->  f b
+applied funcs value =
+    funcs >~ ($ value)
+
+anyOf ::  [a->Bool]  ->  a  ->  Bool
+anyOf predicates =
+    or . (applied predicates)
+
+allOf ::  [a->Bool]  ->  a  ->  Bool
+allOf predicates =
+    and . (applied predicates)
+
+noneOf ::  [a->Bool]  ->  a  ->  Bool
+noneOf predicates =
+    not . (anyOf predicates)

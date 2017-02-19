@@ -1,9 +1,8 @@
 module Lst
-(begins, join, joined, splitBy, splitOn, isInfixed, isPrefixed, isSuffixed,
-    DL.find, DL.isInfixOf, DL.isPrefixOf, DL.isSuffixOf, DL.lookup)
+(module L, module Lst)
 where
 
-import qualified Data.List as DL
+import Data.List as L
 
 
 
@@ -15,8 +14,24 @@ begins _ _ =
 
 
 
+elemIn :: (Eq a)=>  [a]  ->  a  ->  Bool
+elemIn = flip elem
+
+
+
+isInfixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isInfixed = flip L.isInfixOf
+
+isPrefixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isPrefixed = flip L.isPrefixOf
+
+isSuffixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
+isSuffixed = flip L.isSuffixOf
+
+
+
 joined :: [a]  ->  [[a]]  ->  [a]
-joined = DL.intercalate
+joined = L.intercalate
 
 join :: a  ->  [[a]]  ->  [a]
 join delim =
@@ -38,11 +53,18 @@ splitOn delim =
 
 
 
-isInfixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
-isInfixed = flip DL.isInfixOf
+trim :: (a->Bool)  ->  [a]  ->  [a]
+trim fn =
+    (trimEnd fn) . (trimStart fn)
 
-isPrefixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
-isPrefixed = flip DL.isPrefixOf
+trimEnd :: (a->Bool)  ->  [a]  ->  [a]
+trimEnd = L.dropWhileEnd
 
-isSuffixed :: (Eq a)=>  [a]  ->  [a]  ->  Bool
-isSuffixed = flip DL.isSuffixOf
+trimEndEq ::  (Eq a)=>  [a]  ->  [a]  ->  [a]
+trimEndEq dropitems = trimEnd (`elem` dropitems)
+
+trimStart :: (a->Bool)  ->  [a]  ->  [a]
+trimStart = L.dropWhile
+
+trimStartEq :: (Eq a)=>  [a]  ->  [a]  ->  [a]
+trimStartEq dropitems = trimStart (`elem` dropitems)

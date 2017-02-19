@@ -12,50 +12,62 @@ import qualified System.FilePath
 
 
 
-err :: String  ->  a
+both ::  (i1->o1 , i2->o2)  ->  (i1 , i2)  ->  (o1 , o2)
+both (fun1 , fun2) (tup1 , tup2) =
+    (fun1 tup1 , fun2 tup2)
+
+
+
+err ::  String  ->  a
 err = errorWithoutStackTrace
 
 
 
-has :: [a]  ->  Bool
+has ::  [a]  ->  Bool
 has [] = False
 has (_:_) = True
 
 
 
-
-(~.) :: (a->b)  ->  (b->c)  ->  a  ->  c
+(~.) ::  (a->b)  ->  (b->c)  ->  a  ->  c
 infixl ~.
 (~.) = flip (.)
 
+(|.|) ::  (a->Bool)  ->  (a->Bool)  ->  (a->Bool)
+infix 8 |.|
+(|.|) p1 p2 val = p1 val || p2 val
+
+(&.&) ::  (a->Bool)  ->  (a->Bool)  ->  (a->Bool)
+infix 8 &.&
+(&.&) p1 p2 val = p1 val && p2 val
 
 
 
-(-:) :: a  ->  (a->b)  ->  b
+(-:) ::  a  ->  (a->b)  ->  b
 infixl 9 -:
 (-:) = (&)
 
 
-(~>) :: a  ->  (a->b)  ->  b
+(~>) ::  a  ->  (a->b)  ->  b
 infixl ~>
 (~>) = (&)
 
 
 
 
-(=:) :: a  ->  b  ->  (a,b)
+(=:) ::  a  ->  b  ->  (a,b)
 infix 0 =:
 (=:) = (,)
 
 
 
 
-(|~) :: (a->Bool)  ->  [a]  ->  [a]
+(|~) ::  (a->Bool)  ->  [a]  ->  [a]
 infixr 7 |~
 (|~) = filter
 
 
-(~|) :: [a]  ->  (a->Bool)  ->  [a]
+(~|) ::  [a]  ->  (a->Bool)  ->  [a]
 infixl 7 ~|
 (~|) = flip filter
 
@@ -67,12 +79,12 @@ infixl 8 >~
 (>~) = flip fmap
 
 
-(>=~) :: [a]  ->  (a->Maybe b)  ->  [b]
+(>=~) ::  [a]  ->  (a->Maybe b)  ->  [b]
 infixl 9 >=~
 (>=~) = flip Data.Maybe.mapMaybe
 
 
-(>/~) :: [a]  ->  (a->[b])  ->  [[b]]
+(>/~) ::  [a]  ->  (a->[b])  ->  [[b]]
 infixl 9 >/~
 (>/~) [] _ = []
 (>/~) (item:more) func =
@@ -95,38 +107,38 @@ infixl >>|
 
 
 
-(|?) :: Bool  ->  a  ->  a  ->  a
+(|?) ::  Bool  ->  a  ->  a  ->  a
 infix 1 |?
 (|?) True yay _ = yay
 (|?) False _ nay = nay
 
 
-(|!) :: (a->b)  ->  a  ->  b
+(|!) ::  (a->b)  ->  a  ->  b
 infixr 0 |!
 (|!) = ($)
 
 
 
-(<?>) :: [a]  ->  [a]  ->  [a]
+(<?>) ::  [a]  ->  [a]  ->  [a]
 infix 9 <?>
 [] <?> list = list
 list <?> _ = list
 
 
 
-(-|=) :: a  ->  Maybe a  ->  a
+(-|=) ::  a  ->  Maybe a  ->  a
 infix 1 -|=
 (-|=) = Data.Maybe.fromMaybe
 
 
-(=|-) :: (a->b)  ->  b  ->  Maybe a  ->  b
+(=|-) ::  (a->b)  ->  b  ->  Maybe a  ->  b
 infix 0 =|-
 (=|-) = flip maybe
 
 
 
 
-(@!) :: [a]  -> Int  ->  a
+(@!) ::  [a]  -> Int  ->  a
 infixl 9 @!
 [] @! _ = undefined  --  rids this Careful Coder (TM) of the pesky 'non-exhaustive patterns' warning
 (x:_) @! 0 = x
@@ -138,7 +150,7 @@ list @! i = (drop i list) @! 0
 
 
 
-(@?) :: [a]  ->  Int  ->  Maybe a
+(@?) ::  [a]  ->  Int  ->  Maybe a
 infixl 9 @?
 [] @? _ = Nothing
 (x:_) @? 0 = Just x
