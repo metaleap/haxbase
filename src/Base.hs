@@ -12,10 +12,14 @@ import qualified System.FilePath
 
 
 
-both ::  (i1->o1 , i2->o2)  ->  (i1 , i2)  ->  (o1 , o2)
-both (fun1 , fun2) (tup1 , tup2) =
-    (fun1 tup1 , fun2 tup2)
+duo ::  (i1->o1 , i2->o2)  ->  (i1 , i2)  ->  (o1 , o2)
+duo (func1 , func2) (tup1 , tup2) =
+    (func1 tup1 , func2 tup2)
 
+
+dupl ::  a  ->  (a , a)
+dupl x =
+    (x , x)
 
 
 err ::  String  ->  a

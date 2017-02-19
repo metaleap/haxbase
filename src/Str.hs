@@ -1,5 +1,5 @@
 module Str
-(module Str , module Text.Printf, module Text.Read)
+(module Str)
 where
 
 
@@ -7,18 +7,12 @@ import Base
 import qualified Lst
 
 import qualified Data.Char
-import Text.Printf
-import Text.Read
+import qualified Text.Printf
+import qualified Text.Read
+
 
 
 type Pairs = [(String , String)]
-
-
-
-teaser ::  Int  ->  String  ->  String
-teaser maxlen str =
-    if s==str then s else (s++"...")
-    where s = take maxlen str
 
 
 
@@ -56,12 +50,27 @@ multiLinedChunksByIndent =
 
 
 
+teaser ::  Int  ->  String  ->  String
+teaser maxlen str =
+    if s==str then s else (s++"...")
+    where s = take maxlen str
+
+
+
+toLower :: String  ->  String
+toLower = fmap Data.Char.toLower
+
+toUpper :: String  ->  String
+toUpper = fmap Data.Char.toUpper
+
+
+
 trim ::  String  ->  String
 trim =
     Lst.trim Data.Char.isSpace
 
 trimBoth ::  (String , String)  ->  (String , String)
-trimBoth = both (trim , trim)
+trimBoth = duo (trim , trim)
 
 trimEnd ::  String  ->  String
 trimEnd =

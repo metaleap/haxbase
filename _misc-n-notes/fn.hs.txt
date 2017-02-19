@@ -14,3 +14,16 @@ allOf predicates =
 noneOf ::  [a->Bool]  ->  a  ->  Bool
 noneOf predicates =
     not . (anyOf predicates)
+
+
+
+
+
+
+fuseElems is2fuse fusion (this:next:more) =
+    (fused:rest) where
+        nofuse = not$ is2fuse this next
+        fused = nofuse |? this |! fusion this next
+        rest = fuseElems is2fuse fusion$
+                nofuse |? (next:more) |! more
+fuseElems _ _ l = l

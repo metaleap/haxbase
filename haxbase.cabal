@@ -18,4 +18,4 @@ library
     build-depends:
         base, filepath, text
     exposed-modules:
-        Base, Cfg, Dbg, Lst, Str, Txt
+        Base, Cfg, Dbg, Fn, Lst, Str, Txt
