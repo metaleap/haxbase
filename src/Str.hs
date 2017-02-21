@@ -86,8 +86,11 @@ trimSpaceOr dropitems =
 
 
 
-tryParse :: (Read r)=>  r  ->  r  ->  (String->String)  ->  String  ->  r
-tryParse nullval errval toparsestr str =
+tryParse ::  (Read r)=>  String -> Maybe r
+tryParse = Text.Read.readMaybe
+
+tryParseNonNull :: (Read r)=>  r  ->  r  ->  (String->String)  ->  String  ->  r
+tryParseNonNull nullval errval toparsestr str =
     if (null str) then nullval else
         errval -|= (Text.Read.readMaybe$ toparsestr str)
 

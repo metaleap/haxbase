@@ -1,5 +1,6 @@
 module Lst
-(module Lst, L.unlines, L.lines, L.groupBy, L.find, L.isPrefixOf, L.isInfixOf, L.isSuffixOf, L.lookup)
+(module Lst, L.unlines, L.lines, L.groupBy, L.find, L.isPrefixOf, L.isInfixOf, L.isSuffixOf,
+    L.lookup, L.span, L.break)
 where
 
 import Base
@@ -97,6 +98,30 @@ lengthGt 0 = has
 lengthGt n = has . drop n
 
 
+replace ::  (Eq a)=>  ([a] , [a])  ->  [a]  ->  [a]
+replace ([],[]) = id
+replace (old,new) =
+    replacer where
+    replacer [] = []
+    replacer listfrom@(cur:rest) =
+        if not (L.isPrefixOf old listfrom) then  cur : replacer rest
+            else new ++ replacer (drop oldlen listfrom)
+    oldlen = old~>length
+
+replaceAll ::  (Eq a)=>  [([a],[a])]  ->  [a]  ->  [a]
+replaceAll [] = id
+replaceAll [oldnew] = replace oldnew
+replaceAll oldnewpairs =
+    replacer where
+    replacer [] = []
+    replacer listfrom@(cur:rest) =
+        case finder listfrom of
+            Nothing -> cur : replacer rest
+            Just (new , oldlen , _) -> new ++ (replacer (drop oldlen listfrom))
+    oldnews = oldnewpairs >~ \ (old , new) -> (new , old~>length , L.isPrefixOf old)
+    finder listfrom = L.find match oldnews where match (_,_,m) = m listfrom
+
+
 
 shiftLeft ::  [a]  ->  [a]
 shiftLeft [] = []
@@ -131,10 +156,18 @@ splitBy check =
             |(check item)= []:accum
             |(otherwise)= (item:item0):rest
 
+splitIt ::  Int  ->  [a]  ->  ([a] , [a])
+splitIt i list
+    | (i < 0) = (list , [])
+    | (otherwise) = (take i list, drop (i+1) list)
+
 splitOn :: (Eq a)=>  a  ->  [a]  ->  [[a]]
 splitOn delim =
     splitBy (delim==)
 
+splitOn1st :: (Eq a)=>  a  ->  [a]  ->  ([a],[a])
+splitOn1st delim =
+    (drop 1 <$>) . (L.break (==delim))
 
 
 trim :: (a->Bool)  ->  [a]  ->  [a]

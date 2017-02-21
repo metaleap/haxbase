@@ -16,6 +16,6 @@ library
     ghc-options:         -j4 -Wall -O2
     hs-source-dirs:      src
     build-depends:
-        base, filepath, text
+        base, containers, filepath, text
     exposed-modules:
-        Base, Cfg, Dbg, Fn, Lst, Str, Txt
+        Base, Cfg, Dbg, Fn, Lst, Map, Str, Txt
