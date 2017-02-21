@@ -16,40 +16,28 @@ data Syntax
         delimsSubst :: (String , String)
     }
 
-newtype Parsed
+newtype Intermediate
     = Chunks (Map.Map String (String , String))
 
 data Config a
     = Loaded {
         allNames :: [String],
-        get :: String  ->  Maybe a,
+        get :: (String->Maybe a),
         namesWhereMeta ::  (String->Bool)  ->  [String]
     }
 
-usingDefaultSyntax :: Syntax
-usingDefaultSyntax =
-    Using{ delimHeaderBody = '=' , delimNameMeta = ':' , delimsSubst = ("{{","}}") }
+
+usingDefaultSyntax  ::  Syntax
+usingDefaultSyntax
+    = Using{ delimHeaderBody = '=' , delimNameMeta = ':' , delimsSubst = ("{{","}}") }
 
 
 
-load ::  (Read r)=>  (String->(String->String))  ->  Parsed  ->  Config r
-load getreadstrmaker (Chunks strictmap) =
-    Loaded { allNames = allnames , get = fetch , namesWhereMeta = nameswheremeta }
-    where
-    allnames = Map.keys strictmap
-    nameswheremeta metacheck =
-        Map.keys$ Map.filter (metacheck.fst) strictmap
-    fetch name =
-        case Map.lookup name strictmap of
-            Nothing -> Nothing
-            Just ("",body) -> Str.tryParse body
-            Just (meta,body) -> Str.tryParse ((getreadstrmaker meta) body)
 
-
-
-parseFrom ::  Syntax  ->  String  ->  Parsed
-parseFrom Using{ delimHeaderBody , delimNameMeta , delimsSubst } src =
-    Chunks$ Map.fromList chunksfinal
+chunksFrom  ::  String  ->  Syntax
+            ->  Intermediate
+chunksFrom      src Using{ delimHeaderBody , delimNameMeta , delimsSubst }
+    = Chunks$ Map.fromList chunksfinal
     where
     chunksfinal = chunksreplaced >~ foreach
     foreach (header,body) =
@@ -61,3 +49,20 @@ parseFrom Using{ delimHeaderBody , delimNameMeta , delimsSubst } src =
     tmplrepls = chunksraw >~ \ (header , body) -> (tmplreplname header , body)
     tmplreplname = (delimsSubst~>fst ++) . (++ delimsSubst~>snd) . fst . splitnamemeta
     splitnamemeta = Lst.splitOn1st delimNameMeta
+
+
+
+load    ::  (Read r)
+        =>  (String->(String->String))  ->  Intermediate
+        ->  Config r
+load        getreadstrmaker (Chunks strictmap)
+    = Loaded { allNames = allnames , get = fetch , namesWhereMeta = nameswheremeta }
+    where
+    allnames = Map.keys strictmap
+    nameswheremeta metacheck =
+        Map.keys$ Map.filter (metacheck.fst) strictmap
+    fetch name =
+        case Map.lookup name strictmap of
+            Nothing -> Nothing
+            Just ("",body) -> Str.tryParse body
+            Just (meta,body) -> Str.tryParse ((getreadstrmaker meta) body)
