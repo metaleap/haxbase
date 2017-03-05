@@ -4,6 +4,7 @@ where
 
 import qualified Control.Applicative
 import qualified Control.Monad
+import qualified Data.Foldable
 import Data.Function ( (&) )
 import qualified Data.Maybe
 import qualified Data.Monoid
@@ -121,12 +122,18 @@ infixl  9 >/~
         discardnil val  = val : (more >/~ func)
 
 
-(>>~)   ::  (Traversable t, Monad m)
+(>>~)   ::  (Traversable t, Applicative m)
         =>  t a  ->  (a->m b)
         ->  m (t b)
 infixl  8 >>~
 (>>~)   = Data.Traversable.for
 
+
+(*>~)   ::  (Applicative f, Foldable t)
+        =>  t a  ->  (a->f b)
+        -> f ()
+infixl  8 *>~
+(*>~)   = Data.Foldable.for_
 
 
 

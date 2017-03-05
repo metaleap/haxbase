@@ -1,5 +1,5 @@
 module Str
-(module Str)
+(module Str, L.unlines, L.lines)
 where
 
 
@@ -7,9 +7,9 @@ import Base
 import qualified Lst
 
 import qualified Data.Char
+import qualified Data.List as L
 import qualified Text.Printf
 import qualified Text.Read
-
 
 
 type Pairs
@@ -47,7 +47,10 @@ formatWithList  text vals
 multiLinedChunksBy  ::  (String->String->Bool)  ->  String
                     ->  [String]
 multiLinedChunksBy  doesntbeginchunk
-    = (Lst.unlines <$>) . Lst.groupBy doesntbeginchunk . Lst.lines
+    = (L.unlines <$>)
+        . Lst.groupBy doesntbeginchunk
+        . Lst.dropWhile (\x -> doesntbeginchunk x "")
+        . L.lines
 
 
 multiLinedChunksByIndent    ::  String

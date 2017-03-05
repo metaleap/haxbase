@@ -1,6 +1,5 @@
 {-# LANGUAGE NamedFieldPuns #-}
 module Cfg
-
 where
 
 import Base
@@ -16,8 +15,11 @@ data Syntax
         delimsSubst :: (String , String)
     }
 
+
 newtype Intermediate
     = Chunks (Map.Map String (String , String))
+    deriving Show
+
 
 data Config a
     = Loaded {
@@ -34,9 +36,9 @@ usingDefaultSyntax
 
 
 
-chunksFrom  ::  String  ->  Syntax
+chunksFrom  ::  Syntax  ->  String
             ->  Intermediate
-chunksFrom      src Using{ delimHeaderBody , delimNameMeta , delimsSubst }
+chunksFrom      Using{ delimHeaderBody , delimNameMeta , delimsSubst } src
     = Chunks$ Map.fromList chunksfinal
     where
     chunksfinal = chunksreplaced >~ foreach

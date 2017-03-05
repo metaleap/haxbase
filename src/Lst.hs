@@ -1,6 +1,6 @@
 module Lst
-(module Lst, L.unlines, L.lines, L.groupBy, L.find, L.isPrefixOf, L.isInfixOf,
-    L.isSuffixOf, L.lookup, L.span, L.break)
+(module Lst, L.groupBy, L.find, L.isPrefixOf, L.isInfixOf,
+    L.isSuffixOf, L.lookup, L.span, L.break, L.dropWhile)
 where
 
 import Base

@@ -7,7 +7,8 @@ repeatedly  ::  (Eq a)
             =>  (a->a)  ->  a
             ->  a
 repeatedly  fn arg
-    = if (result==arg) then result else repeatedly fn result
+    | result==arg   = result
+    | otherwise     = repeatedly fn result
     where result = fn arg
 
 
