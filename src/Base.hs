@@ -129,9 +129,9 @@ infixl  8 >>~
 (>>~)   = Data.Traversable.for
 
 
-(*>~)   ::  (Applicative f, Foldable t)
-        =>  t a  ->  (a->f b)
-        -> f ()
+(*>~)   ::  (Applicative m, Foldable f)
+        =>  f a  ->  (a->m b)
+        -> m ()
 infixl  8 *>~
 (*>~)   = Data.Foldable.for_
 
