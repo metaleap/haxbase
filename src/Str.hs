@@ -43,7 +43,6 @@ formatWithList  text vals
 
 
 
-
 multiLinedChunksBy  ::  (String->String->Bool)  ->  String
                     ->  [String]
 multiLinedChunksBy  doesntbeginchunk
