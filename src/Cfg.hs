@@ -55,7 +55,7 @@ chunksFrom      Using{ delimHeaderBody , delimNameMeta , delimsSubst } src
 
 
 load    ::  (Read r)
-        =>  (String->(String->String))  ->  Intermediate
+        =>  (String-> (String->String))  ->  Intermediate
         ->  Config r
 load        getreadstrmaker (Chunks strictmap)
     = Loaded { allNames = allnames , get = fetch , namesWhereMeta = nameswheremeta }
