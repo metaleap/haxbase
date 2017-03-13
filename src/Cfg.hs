@@ -39,7 +39,7 @@ usingDefaultSyntax
 chunksFrom  ::  Syntax  ->  String
             ->  Intermediate
 chunksFrom      Using{ delimHeaderBody , delimNameMeta , delimsSubst } src
-    = Chunks$ Map.fromList chunksfinal
+    = Chunks $ Map.fromList chunksfinal
     where
     chunksfinal = chunksreplaced >~ foreach
     foreach (header,body) =

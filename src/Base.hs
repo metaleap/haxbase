@@ -131,7 +131,7 @@ infixl  8 >>~
 
 (*>~)   ::  (Applicative m, Foldable f)
         =>  f a  ->  (a->m b)
-        -> m ()
+        ->  m ()
 infixl  8 *>~
 (*>~)   = Data.Foldable.for_
 

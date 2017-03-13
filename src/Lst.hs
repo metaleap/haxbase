@@ -132,7 +132,7 @@ replace (old , new)
     oldlen = old~>length
     replacer []                     = []
     replacer listfrom@(cur:rest)    =
-        if not (L.isPrefixOf old listfrom) then  cur : replacer rest
+        if not (L.isPrefixOf old listfrom) then cur : replacer rest
             else new ++ replacer (drop oldlen listfrom)
 
 
