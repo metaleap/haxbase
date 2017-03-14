@@ -10,22 +10,22 @@ import qualified Str
 
 data Syntax
     = Using {
-        delimHeaderBody :: Char,
-        delimNameMeta :: Char,
-        delimsSubst :: (String , String)
+        delimHeaderBody ::  Char,
+        delimNameMeta   ::  Char,
+        delimsSubst     ::  (String , String)
     }
 
 
 newtype Intermediate
     = Chunks (Map.Map String (String , String))
-    deriving Show
+    deriving (Show)
 
 
 data Config a
     = Loaded {
-        allNames :: [String],
-        get :: (String->Maybe a),
-        namesWhereMeta ::  (String->Bool)  ->  [String]
+        allNames        ::  [String],
+        get             ::  (String->Maybe a),
+        namesWhereMeta  ::  (String->Bool)  ->  [String]
     }
 
 
